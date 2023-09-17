@@ -1,0 +1,4 @@
+# Exclude entire directory
+G:\python-practice\django-practice\todolist\todo\__pycache__
+
+

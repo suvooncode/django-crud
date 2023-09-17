@@ -1,0 +1,40 @@
+{% extends "todo/layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="wrapper-content">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.title.id_for_label }}">Title:</label>
+                        <input type="text" class="form-control" id="{{ form.title.id_for_label }}"
+                            name="{{ form.title.name }}" value="{% if form.notes.value %}{{ form.title.value }}{% endif %}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.notes.id_for_label }}">Notes:</label>
+                        <textarea class="form-control autoresize" id="{{ form.notes.id_for_label }}"
+                            name="{{ form.notes.name }}" required>{% if form.notes.value %}{{ form.notes.value }} {% endif %}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.completed.id_for_label }}">Status:</label>
+                        <select class="form-control" id="{{ form.completed.id_for_label }}"
+                            name="{{ form.completed.name }}" required>
+                            <option value="0">Incomolete</option>
+                            <option value="1" {% if form.completed.value == 1 %} selected {% endif %}>Complete</option>
+                        </select>
+                    </div>
+
+
+                    <div class="center mt-2">
+                        
+                        <button type="submit" class="btn btn-primary">{% if action == 'create' %}Create{% else %} Update {% endif %}</button>
+                        <a href="{% url 'todo_list' %}" class="btn btn-info">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

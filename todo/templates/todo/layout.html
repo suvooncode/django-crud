@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <h4 class="center"> {{ title }}</h4>
+        <!-- Add your navigation menu here -->
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <!-- Add your footer content here -->
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+   <script>
+    function view_details(id){
+        // alert();
+        $.ajax({
+                    url: "{% url 'get_todo_by_id' %}",
+                    type: "POST",
+                    data: { id: id},
+                    headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',  // Include the CSRF token in the header
+                        },
+                    success: function (response) {
+                        console.log(response.title);
+                        $(".modal-title").html(response.title);
+                        $("#notes_details").html(response.description);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+        $('.modal').modal('show')
+    }
+    </script>
+</body>
+</html>
